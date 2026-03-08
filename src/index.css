@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui";
+body {
+  @apply bg-gray-50;
+}
+
+
+.btn-primary {
+  @apply   px-4 py-2 text-white dark:text-gray-200 bg-blue-900 hover:bg-blue-800 rounded-xl;
+} 
