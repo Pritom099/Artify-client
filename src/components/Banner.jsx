@@ -15,7 +15,7 @@ const Banner = () => {
                     Explore the creative world of talented artists
                 </p>
                 <div className='mt-12'>
-                    <Link to="/all-art" className=' px-8 py-4 font-bold text-xl text-white dark:text-gray-200 bg-blue-900 hover:bg-blue-800 rounded-xl '>
+                    <Link to="/all-art" className='btn-secondary'>
                         Explore Now
                     </Link>
                 </div>

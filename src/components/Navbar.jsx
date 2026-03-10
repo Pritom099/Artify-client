@@ -1,10 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
     const links = <>
         <li className='font-semibold'><NavLink>Home</NavLink></li>
-        <li className='font-semibold'><NavLink>Explore Artworks</NavLink></li>
+        <li className='font-semibold'><NavLink to={"/all-art"}>Explore Artworks</NavLink></li>
+        <li className='font-semibold'><NavLink to={'/add-art'}>Add Artwork</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100 shadow-sm md:px-30">
@@ -28,8 +29,8 @@ const Navbar = () => {
             </div>
             <div className="navbar-end gap-5">
                 <button className='btn'>Mood</button>
-                <button className='btn'>Login</button>
-                <button className='btn btn-primary'>Register</button>
+                <Link to={"/login"} className='btn'>Login</Link>
+                <Link to={"/register"} className='btn btn-primary'>Register</Link>
             </div>
         </div>
     );
