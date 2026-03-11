@@ -1,211 +1,218 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { ArrowLeft, Heart, Share2 } from "lucide-react";
 
 const ArtDetails = () => {
 
-        return (
-            <div className="min-h-screen bg-background">
-                {/* Header */}
-                <div className="bg-card border-b border-border py-4 sticky top-16 z-40">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4">
-                        <button
-                            
-                            className="flex items-center gap-2 text-primary hover:text-accent transition-colors font-medium"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                            Back to Explore
-                        </button>
-                    </div>
-                </div>
+    const { id } = useParams();
 
-                {/* Content */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+    const [artwork, setArtwork] = useState({});
+    const [isLiked, setIsLiked] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
+    const [copied, setCopied] = useState(false);
 
-                        {/* Image */}
-                        <div className="lg:col-span-2">
-                            <div className="bg-muted aspect-square rounded-lg overflow-hidden mb-6">
-                                <img
-                                    src={artwork.image}
-                                    alt={artwork.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
+    useEffect(() => {
+        fetch(`http://localhost:3000/artworks/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setArtwork(data);
+            });
+    }, [id]);
 
-                            {/* Quick Actions */}
-                            <div className="grid grid-cols-3 gap-4 mb-6">
+    const handleLike = () => {
+        setIsLiked(!isLiked);
+    };
 
-                                <button
-                                   
-                                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${isLiked
-                                            ? "bg-destructive text-destructive-foreground"
-                                            : "border border-border text-foreground hover:bg-accent/10"
-                                        }`}
-                                >
-                                    <Heart
-                                        className="w-5 h-5"
-                                        fill={isLiked ? "currentColor" : "none"}
-                                    />
-                                    {isLiked ? "Liked" : "Like"}
-                                </button>
+    const handleFavorite = () => {
+        setIsFavorited(!isFavorited);
+    };
 
-                                <button
-                                    
-                                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${isFavorited
-                                            ? "bg-primary text-primary-foreground"
-                                            : "border border-border text-foreground hover:bg-accent/10"
-                                        }`}
-                                >
-                                    <Heart
-                                        className="w-5 h-5"
-                                        fill={isFavorited ? "currentColor" : "none"}
-                                    />
-                                    {isFavorited ? "Favorited" : "Favorite"}
-                                </button>
+    const handleShare = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
-                                <button
-                                    
-                                    className="flex items-center justify-center gap-2 px-4 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-accent/10 transition-colors"
-                                >
-                                    <Share2 className="w-5 h-5" />
-                                    {copied ? "Copied!" : "Share"}
-                                </button>
+    return (
+        <div className="min-h-screen">
 
-                            </div>
+            {/* Content */}
+            <div className="max-w-7xl mx-auto px-4 py-12">
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+                    {/* Image */}
+                    <div className="lg:col-span-2">
+
+                        <div className="aspect-square rounded-lg overflow-hidden mb-6">
+                            <img
+                                src={artwork.image}
+                                alt={artwork.title}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
 
-                        {/* Info Panel */}
-                        <div className="lg:col-span-1 space-y-6">
+                        {/* Actions */}
+                        <div className="grid grid-cols-3 gap-4">
 
-                            {/* Title & Artist */}
-                            <div>
-                                <h1 className="text-3xl font-bold text-foreground mb-3">
-                                    {artwork.title}
-                                </h1>
+                            <button
+                                onClick={handleLike}
+                                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition
+                                ${isLiked
+                                        ? "bg-red-500 text-white"
+                                        : "border hover:bg-gray-100"
+                                    }`}
+                            >
+                                <Heart className="w-5 h-5" fill={isLiked ? "currentColor" : "none"} />
+                                {isLiked ? "Liked" : "Like"}
+                            </button>
 
-                                <div className="flex items-center gap-3 pb-4 border-b border-border">
-                                    <img
-                                        src={artwork.artistImage}
-                                        alt={artwork.artist}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
+                            <button
+                                onClick={handleFavorite}
+                                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition
+                ${isFavorited
+                                        ? "bg-blue-600 text-white"
+                                        : "border hover:bg-gray-100"
+                                    }`}
+                            >
+                                <Heart className="w-5 h-5" fill={isFavorited ? "currentColor" : "none"} />
+                                {isFavorited ? "Favorited" : "Favorite"}
+                            </button>
 
-                                    <div>
-                                        <p className="text-foreground font-semibold">{artwork.artist}</p>
-                                        <p className="text-sm text-muted-foreground">Artist</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Stats */}
-                            <div className="bg-card border border-border rounded-lg p-6 space-y-4">
-                                <div>
-                                    <p className="text-muted-foreground text-sm mb-1">Total Likes</p>
-                                    <p className="text-2xl font-bold text-primary">{likes}</p>
-                                </div>
-
-                                <div className="border-t border-border pt-4">
-                                    <p className="text-muted-foreground text-sm mb-1">Views</p>
-                                    <p className="text-2xl font-bold text-foreground">
-                                        {Math.floor(Math.random() * 1000) + 500}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Details */}
-                            <div className="bg-card border border-border rounded-lg p-6 space-y-4">
-
-                                <div>
-                                    <p className="text-muted-foreground text-sm mb-1">Category</p>
-                                    <p className="font-semibold text-foreground">{artwork.category}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-muted-foreground text-sm mb-1">Medium</p>
-                                    <p className="font-semibold text-foreground">{artwork.medium}</p>
-                                </div>
-
-                                {artwork.dimensions && (
-                                    <div>
-                                        <p className="text-muted-foreground text-sm mb-1">Dimensions</p>
-                                        <p className="font-semibold text-foreground">
-                                            {artwork.dimensions}
-                                        </p>
-                                    </div>
-                                )}
-
-                                {artwork.price && (
-                                    <div>
-                                        <p className="text-muted-foreground text-sm mb-1">Price</p>
-                                        <p className="font-bold text-primary text-xl">
-                                            ${artwork.price}
-                                        </p>
-                                    </div>
-                                )}
-
-                            </div>
-
-                            {/* CTA */}
-                            <button className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-accent transition-colors">
-                                Inquire About This Piece
+                            <button
+                                onClick={handleShare}
+                                className="flex items-center justify-center gap-2 px-4 py-3 border rounded-lg font-medium hover:bg-gray-100"
+                            >
+                                <Share2 className="w-5 h-5" />
+                                {copied ? "Copied!" : "Share"}
                             </button>
 
                         </div>
+
                     </div>
 
-                    {/* Description */}
-                    <div className="mt-12 border-t border-border pt-12">
-                        <h2 className="text-2xl font-bold text-foreground mb-4">
-                            About This Artwork
-                        </h2>
-                        <p className="text-lg text-muted-foreground leading-relaxed">
-                            {artwork.description}
-                        </p>
-                    </div>
+                    {/* Info Panel */}
+                    <div className="space-y-6">
 
-                    {/* Artist Section */}
-                    <div className="mt-12 border-t border-border pt-12">
-                        <div className="bg-card border border-border rounded-lg p-8">
+                        {/* Title */}
+                        <div>
+                            <h1 className="text-3xl font-bold mb-3">
+                                {artwork.title}
+                            </h1>
 
-                            <div className="flex items-center gap-6 mb-6">
+                            <div className="flex items-center gap-3 pb-4 border-b border-gray-300">
+
                                 <img
-                                    src={artwork.artistImage}
-                                    alt={artwork.artist}
-                                    className="w-24 h-24 rounded-full object-cover"
+                                    src={artwork.artistPhoto}
+                                    alt={artwork.artistName}
+                                    className="w-12 h-12 rounded-full object-cover"
                                 />
 
                                 <div>
-                                    <h3 className="text-2xl font-bold text-foreground mb-2">
-                                        {artwork.artist}
-                                    </h3>
-
-                                    <p className="text-muted-foreground mb-4">
-                                        Professional Artist
-                                    </p>
-
-                                    <div className="flex gap-4">
-                                        <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent/10 transition-colors font-medium">
-                                            View Profile
-                                        </button>
-
-                                        <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent/10 transition-colors font-medium">
-                                            Follow
-                                        </button>
-                                    </div>
+                                    <p className="font-semibold">{artwork.artistName}</p>
+                                    <p className="text-sm text-gray-500">Artist</p>
                                 </div>
+
+                            </div>
+                        </div>
+
+                        {/* Stats */}
+                        <div className="border border-gray-300 rounded-lg p-6 space-y-4 bg-white">
+
+                            <div>
+                                <p className="text-sm text-gray-500 mb-1">Total Likes</p>
+                                <p className="text-2xl font-bold text-blue-600">
+                                    {artwork.likes}
+                                </p>
                             </div>
 
-                            <p className="text-foreground">
-                                Check out more amazing artworks from {artwork.artist} and connect
-                                with them directly through the Artify platform.
-                            </p>
+                            <div className="border-t border-gray-300 pt-4">
+                                <p className="text-sm text-gray-500 mb-1">Views</p>
+                                <p className="text-2xl font-bold text-foreground">
+                                    {artwork.views}
+                                </p>
+                            </div>
 
                         </div>
+
+                        {/* Details */}
+                        <div className="border border-gray-300 rounded-lg p-6 space-y-4 bg-white">
+
+                            <div>
+                                <p className="text-sm text-gray-500 mb-1">Category</p>
+                                <p className="font-semibold">{artwork.category}</p>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-500 mb-1">Medium</p>
+                                <p className="font-semibold">{artwork.medium}</p>
+                            </div>
+
+                            {artwork.dimensions && (
+                                <div>
+                                    <p className="text-sm text-gray-500 mb-1">Dimensions</p>
+                                    <p className="font-semibold">{artwork.dimensions}</p>
+                                </div>
+                            )}
+
+                            {artwork.price && (
+                                <div>
+                                    <p className="text-sm text-gray-500 mb-1">Price</p>
+                                    <p className="text-xl font-bold text-green-600">
+                                        ${artwork.price}
+                                    </p>
+                                </div>
+                            )}
+
+                        </div>
+
+                        {/* CTA */}
+                        <button className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
+                            Inquire About This Piece
+                        </button>
+
                     </div>
+
                 </div>
+
+                {/* Description */}
+                <div className="mt-12 border-t border-gray-300 pt-12">
+                    <h2 className="text-2xl font-bold mb-4">
+                        About This Artwork
+                    </h2>
+
+                    <p className="text-gray-600 leading-relaxed">
+                        {artwork.description}
+                    </p>
+                </div>
+                <div className="my-8 text-gray-400">
+                    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                </div>
+
+                <div className="bg-white p-10 mt-5 border border-gray-300 rounded-3xl">
+                    <div className="flex items-center gap-10">
+                        <div>
+                            <img className="h-30 rounded-full" src={artwork.artistPhoto} alt="" />
+                        </div>
+                        <div className="space-y-3">
+                            <p className="font-bold text-2xl">{artwork.artistName}</p>
+                            <p>Professional Artist</p>
+                            <div>
+                                <button className="btn mr-5">View Profile</button>
+                                <button className="btn">Follow</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-10">
+                        <h1 className="text-lg text-gray-500">Check out more amazing artworks from {artwork.artistName} and connect with them directly through the Artify platform.</h1>
+                    </div>
+
+                </div>
+
             </div>
-        );
-    }
-
-
+        </div>
+    );
+};
 
 export default ArtDetails;

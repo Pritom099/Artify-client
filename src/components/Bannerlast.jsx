@@ -32,7 +32,7 @@ const Bannerlast = () => {
                 <h1 className='text-5xl font-bold mb-4 text-white'>Ready to Share Your Art?</h1>
                 <p className='text-xl text-gray-300 mb-8'>Join thousands of artists in our creative community today</p>
                 <div>
-                    <Link className="btn px-8 py-6 rounded-lg text-lg text-blue-900 font-semibold hover:bg-amber-200">Upload Your First Work</Link>
+                    <Link to={'/add-art'} className="btn px-8 py-6 rounded-lg text-lg text-blue-900 font-semibold hover:bg-amber-200">Upload Your First Work</Link>
                 </div>
             </div>
 
