@@ -1,12 +1,10 @@
-import React, { use } from 'react';
-import { AuthContext } from '../../context/authContext';
-import { useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
+import React from 'react';
+import { useLoaderData } from 'react-router';
+import { toast } from 'react-toastify';
 
-const Addart = () => {
-
-    const { user } = use(AuthContext)
-    const navigate = useNavigate()
+const UpdateArt = () => {
+    const data = useLoaderData()
+    const artwork = data?.result || data
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,10 +23,9 @@ const Addart = () => {
             Favourites: 0,
             likes: 0,
             views: 0,
-            artistEmail: user?.email
         }
-        fetch('http://localhost:3000/artworks', {
-            method: 'POST',
+        fetch(`http://localhost:3000/artworks/${artwork._id}`, {
+            method: 'PUT',
             headers: {
                 'Content-type': "application/json",
             },
@@ -37,20 +34,13 @@ const Addart = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                navigate('/all-art');
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your art has been added",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                toast.success('Successfully updated!')
             })
             .catch(err => {
                 console.log(err);
             })
-    }
-
+    };
+    
     return (
         <div className='p-10'>
             <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">
@@ -63,6 +53,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="name"
+                                defaultValue={artwork?.title}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="Enter name"
@@ -98,6 +89,7 @@ const Addart = () => {
                             <label className="label font-medium">Description</label>
                             <textarea
                                 name="description"
+                                defaultValue={artwork?.description}
                                 required
                                 rows="3"
                                 className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[250px]"
@@ -110,6 +102,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="dimension"
+                                defaultValue={artwork?.dimensions}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="Enter dimension"
@@ -121,6 +114,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="price"
+                                defaultValue={artwork?.price}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="Enter price"
@@ -133,6 +127,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="medium"
+                                defaultValue={artwork?.medium}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="Enter medium"
@@ -144,6 +139,7 @@ const Addart = () => {
                             <input
                                 type="url"
                                 name="thumbnail"
+                                defaultValue={artwork?.image}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="https://example.com/image.jpg"
@@ -155,6 +151,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="artistName"
+                                defaultValue={artwork?.artistName}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="Enter artist-name"
@@ -166,6 +163,7 @@ const Addart = () => {
                             <input
                                 type="text"
                                 name="artistImage"
+                                defaultValue={artwork?.artistPhoto}
                                 required
                                 className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                                 placeholder="https://example.com/image.jpg"
@@ -187,4 +185,4 @@ const Addart = () => {
     );
 };
 
-export default Addart;
+export default UpdateArt;

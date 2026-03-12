@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { ArrowLeft, Heart, Share2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 const ArtDetails = () => {
 
     const { id } = useParams();
+    const navigate = useNavigate()
 
     const [artwork, setArtwork] = useState({});
     const [isLiked, setIsLiked] = useState(false);
@@ -19,6 +21,41 @@ const ArtDetails = () => {
                 setArtwork(data);
             });
     }, [id]);
+
+    const handleDelete = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/artworks/${artwork._id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-type': "application/json",
+                    },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        navigate('/all-art')
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your art has been deleted.",
+                            icon: "success"
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+        });
+    }
+
 
     const handleLike = () => {
         setIsLiked(!isLiked);
@@ -97,7 +134,7 @@ const ArtDetails = () => {
 
                         {/* Title */}
                         <div>
-                            <h1 className="text-3xl font-bold mb-3">
+                            <h1 className="text-3xl dark:text-blue-800  font-bold mb-3">
                                 {artwork.title}
                             </h1>
 
@@ -110,7 +147,7 @@ const ArtDetails = () => {
                                 />
 
                                 <div>
-                                    <p className="font-semibold">{artwork.artistName}</p>
+                                    <p className="dark:text-blue-800  font-semibold">{artwork.artistName}</p>
                                     <p className="text-sm text-gray-500">Artist</p>
                                 </div>
 
@@ -121,7 +158,7 @@ const ArtDetails = () => {
                         <div className="border border-gray-300 rounded-lg p-6 space-y-4 bg-white">
 
                             <div>
-                                <p className="text-sm text-gray-500 mb-1">Total Likes</p>
+                                <p className="text-sm text-gray-500 mb-1">Total Loves</p>
                                 <p className="text-2xl font-bold text-blue-600">
                                     {artwork.likes}
                                 </p>
@@ -129,7 +166,7 @@ const ArtDetails = () => {
 
                             <div className="border-t border-gray-300 pt-4">
                                 <p className="text-sm text-gray-500 mb-1">Views</p>
-                                <p className="text-2xl font-bold text-foreground">
+                                <p className="text-2xl dark:text-blue-800  font-bold text-foreground">
                                     {artwork.views}
                                 </p>
                             </div>
@@ -141,18 +178,18 @@ const ArtDetails = () => {
 
                             <div>
                                 <p className="text-sm text-gray-500 mb-1">Category</p>
-                                <p className="font-semibold">{artwork.category}</p>
+                                <p className="font-semibold dark:text-blue-800 ">{artwork.category}</p>
                             </div>
 
                             <div>
                                 <p className="text-sm text-gray-500 mb-1">Medium</p>
-                                <p className="font-semibold">{artwork.medium}</p>
+                                <p className="font-semibold dark:text-blue-800 ">{artwork.medium}</p>
                             </div>
 
                             {artwork.dimensions && (
                                 <div>
                                     <p className="text-sm text-gray-500 mb-1">Dimensions</p>
-                                    <p className="font-semibold">{artwork.dimensions}</p>
+                                    <p className="font-semibold dark:text-blue-800 ">{artwork.dimensions}</p>
                                 </div>
                             )}
 
@@ -168,17 +205,26 @@ const ArtDetails = () => {
                         </div>
 
                         {/* CTA */}
-                        <button className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
-                            Inquire About This Piece
-                        </button>
+                        <div className="flex gap-4">
+                            <Link to={`/update-art/${artwork._id}`} className="w-1/2 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 text-center">
+                                Update
+                            </Link>
+
+                            <button
+                                onClick={handleDelete}
+                                className="w-1/2 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+                            >
+                                Delete
+                            </button>
+                        </div>
+
 
                     </div>
-
                 </div>
 
                 {/* Description */}
                 <div className="mt-12 border-t border-gray-300 pt-12">
-                    <h2 className="text-2xl font-bold mb-4">
+                    <h2 className="text-2xl dark:text-blue-800  font-bold mb-4">
                         About This Artwork
                     </h2>
 
@@ -190,7 +236,7 @@ const ArtDetails = () => {
                     ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 </div>
 
-                <div className="bg-white p-10 mt-5 border border-gray-300 rounded-3xl">
+                <div className="bg-base-100 p-10 mt-5 border border-gray-300 rounded-3xl">
                     <div className="flex items-center gap-10">
                         <div>
                             <img className="h-30 rounded-full" src={artwork.artistPhoto} alt="" />

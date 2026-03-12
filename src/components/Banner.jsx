@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 const Banner = () => {
     return (
-        <div className='min-h-screen bg-gradient-to-br from-indigo-200 via-white to-purple-200 flex  justify-center'>
+        <div className='min-h-screen dark:text-blue-800 bg-gradient-to-br from-indigo-200 via-white to-purple-200 flex  justify-center'>
             <div className='text-center space-y-8 py-30'>
                 <p className='text-6xl'>🎨</p>
 

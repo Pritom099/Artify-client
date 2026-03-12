@@ -5,41 +5,78 @@ import { Link, useLoaderData } from 'react-router';
 import ArtCard from '../../components/ArtCard';
 import ArtistCard from '../../components/ArtistCard';
 
-
 const Home = () => {
+
     const data = useLoaderData();
+
     return (
         <div>
-            <Banner></Banner>
-            <div className=' max-w-7xl mx-auto'>
-                <div className='my-10'>
-                    <h1 className='text-5xl font-bold mb-3'>Featured Artworks</h1>
-                    <p className='text-xl text-gray-400'>Discover the latest and greatest creations from our talented artists</p>
+
+            <Banner />
+            <div className="bg-base-200  px-4 py-12">
+
+                <div className="mb-10 text-center md:text-left pl-10">
+                    <h1 className="text-4xl md:text-5xl font-bold text-base-content mb-3">
+                        Featured Artworks
+                    </h1>
+
+                    <p className="text-lg md:text-xl text-base-content/70">
+                        Discover the latest and greatest creations from our talented artists
+                    </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 p-10">
                     {
-                        data.map(art => <ArtCard key={art._id} art={art}></ArtCard>)
+                        data.map(art => (
+                            <ArtCard key={art._id} art={art} />
+                        ))
                     }
                 </div>
-                <div className='my-15 text-center'>
-                    <Link to={'/all-art'} className='btn-secondary'>View ALL Artworks</Link>
+
+                <div className="mt-12 text-center">
+                    <Link
+                        to="/all-art"
+                        className="btn btn-primary px-6 rounded-full"
+                    >
+                        View All Artworks
+                    </Link>
                 </div>
-            </div>
-            <div className='bg-white pb-20 mx-10'>
-                <div className='max-w-7xl mx-auto'>
-                    <div className='py-10'>
-                        <h1 className='text-5xl font-bold mb-3'>Top Artists of the Week</h1>
-                        <p className='text-xl text-gray-400'>Celebrate the amazing talents creating art this week</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-10">
-                        {
-                            data.map(art => <ArtistCard key={art._id} art={art}></ArtistCard>)
-                        }
-                    </div>
-                </div>
+
             </div>
 
-            <Bannerlast></Bannerlast>
+            {/* Featured Artworks */}
+
+
+
+            {/* Top Artists */}
+            <div className="bg-base-200 py-16">
+
+                <div className="max-w-7xl mx-auto px-4">
+
+                    <div className="mb-10 text-center md:text-left">
+                        <h1 className="text-4xl md:text-5xl font-bold text-base-content mb-3">
+                            Top Artists of the Week
+                        </h1>
+
+                        <p className="text-lg md:text-xl text-base-content/70">
+                            Celebrate the amazing talents creating art this week
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {
+                            data.map(art => (
+                                <ArtistCard key={art._id} art={art} />
+                            ))
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+            <Bannerlast />
+
         </div>
     );
 };

@@ -1,16 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const ArtistCard = ({art}) => {
-    const {artistEmail,artistName,artistPhoto} = art
+const ArtistCard = ({ art }) => {
+
+    const { artistEmail, artistName, artistPhoto } = art;
+
     return (
-        <div>
-            <div className='border p-10 rounded-3xl bg-gray-100 flex flex-col items-center space-y-2'>
-                <img className='h-20 w-20 rounded-full' src={artistPhoto} alt="" />
-                <p className='font-semibold'>{artistName}</p>
-                <p>Email: {artistEmail}</p>
-                <Link className='w-full btn-primary mt-2 text-center'>View Profile</Link>
-            </div>
+        <div className="bg-base-100 border border-base-300 p-8 rounded-3xl flex flex-col items-center text-center space-y-3 shadow-sm hover:shadow-lg transition">
+
+            <img
+                className="h-20 w-20 rounded-full object-cover"
+                src={artistPhoto}
+                alt={artistName}
+            />
+
+            <p className="font-semibold text-base-content text-lg">
+                {artistName}
+            </p>
+
+            <p className="text-sm text-base-content/70">
+                {artistEmail}
+            </p>
+
+            <Link
+                className="btn btn-primary btn-sm w-full mt-2 rounded-full"
+            >
+                View Profile
+            </Link>
+
         </div>
     );
 };
