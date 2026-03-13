@@ -1,9 +1,10 @@
 import React from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 const UpdateArt = () => {
     const data = useLoaderData()
+    const navigate = useNavigate();
     const artwork = data?.result || data
 
     const handleSubmit = (e) => {
@@ -35,12 +36,13 @@ const UpdateArt = () => {
             .then(data => {
                 console.log(data);
                 toast.success('Successfully updated!')
+                navigate(`/art-details/${artwork._id}`)
             })
             .catch(err => {
                 console.log(err);
             })
     };
-    
+
     return (
         <div className='p-10'>
             <div className="card border border-gray-200 bg-base-100 w-full max-w-md mx-auto shadow-2xl rounded-2xl">

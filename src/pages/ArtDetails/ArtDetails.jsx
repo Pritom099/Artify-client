@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import Swal from "sweetalert2";
@@ -7,6 +7,7 @@ const ArtDetails = () => {
 
     const { id } = useParams();
     const navigate = useNavigate()
+    const hasViewed = useRef(false);
 
     const [artwork, setArtwork] = useState({});
     const [isLiked, setIsLiked] = useState(false);
@@ -56,10 +57,36 @@ const ArtDetails = () => {
         });
     }
 
+    useEffect(() => {
+        if (!hasViewed.current) {
+            fetch(`http://localhost:3000/artworks/view/${id}`, {
+                method: "PATCH"
+            });
+
+            hasViewed.current = true;
+        }
+
+        fetch(`http://localhost:3000/artworks/${id}`)
+            .then(res => res.json())
+            .then(data => setArtwork(data));
+
+    }, [id]);
+
 
     const handleLike = () => {
+        fetch(`http://localhost:3000/artworks/like/${artwork._id}`, {
+            method: "PATCH"
+        })
+            .then(res => res.json())
+            .then(() => {
+                setArtwork({
+                    ...artwork,
+                    likes: artwork.likes + 1
+                });
+            });
         setIsLiked(!isLiked);
     };
+
 
     const handleFavorite = () => {
         setIsFavorited(!isFavorited);
