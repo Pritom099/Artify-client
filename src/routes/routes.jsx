@@ -9,6 +9,7 @@ import ArtDetails from "../pages/ArtDetails/ArtDetails";
 import MyGallery from "../pages/MyGallery/MyGallery";
 import MyFavourites from "../pages/MyFavourites/MyFavourites";
 import UpdateArt from "../pages/UpdateArt/UpdateArt";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -28,23 +29,43 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/add-art",
-                element: <Addart></Addart>
+                element: (
+                    <PrivateRoute>
+                        <Addart></Addart>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/art-details/:id",
-                element: <ArtDetails></ArtDetails>
+                element: (
+                    <PrivateRoute>
+                        <ArtDetails></ArtDetails>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: '/my-gallery',
-                element: <MyGallery></MyGallery>
+                element: (
+                    <PrivateRoute>
+                        <MyGallery></MyGallery>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: '/my-favourites',
-                element: <MyFavourites></MyFavourites>
+                element: (
+                    <PrivateRoute>
+                        <MyFavourites></MyFavourites>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: '/update-art/:id',
-                element: <UpdateArt></UpdateArt>,
+                element: (
+                    <PrivateRoute>
+                        <UpdateArt></UpdateArt>
+                    </PrivateRoute>
+                ),
                 loader: ({ params }) => fetch(`http://localhost:3000/artworks/${params.id}`)
             },
             {
