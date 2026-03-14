@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../context/authContext";
 
 const ArtDetails = () => {
 
     const { id } = useParams();
+    const { user } = use(AuthContext)
     const navigate = useNavigate()
     const hasViewed = useRef(false);
 
@@ -14,14 +16,6 @@ const ArtDetails = () => {
     const [isFavorited, setIsFavorited] = useState(false);
     const [copied, setCopied] = useState(false);
 
-    useEffect(() => {
-        fetch(`http://localhost:3000/artworks/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setArtwork(data);
-            });
-    }, [id]);
 
     const handleDelete = () => {
         Swal.fire({
@@ -58,6 +52,7 @@ const ArtDetails = () => {
     }
 
     useEffect(() => {
+
         if (!hasViewed.current) {
             fetch(`http://localhost:3000/artworks/view/${id}`, {
                 method: "PATCH"
@@ -68,7 +63,10 @@ const ArtDetails = () => {
 
         fetch(`http://localhost:3000/artworks/${id}`)
             .then(res => res.json())
-            .then(data => setArtwork(data));
+            .then(data => {
+                console.log(data);
+                setArtwork(data);
+            });
 
     }, [id]);
 
@@ -89,8 +87,51 @@ const ArtDetails = () => {
 
 
     const handleFavorite = () => {
-        setIsFavorited(!isFavorited);
-    };
+
+        const favoriteData = {
+            artworkId: artwork._id,
+            title: artwork.title,
+            image: artwork.image,
+            artistName: artwork.artistName,
+            price: artwork.price,
+
+            category: artwork.category,
+            description: artwork.description,
+            dimensions: artwork.dimensions,
+            medium: artwork.medium,
+            artistPhoto: artwork.artistPhoto,
+            createdAt: new Date(),
+            Favourites: 0,
+            likes: 0,
+            views: 0,
+            userEmail: user.email
+        }
+
+        fetch("http://localhost:3000/favourites", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(favoriteData)
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data.insertedId) {
+
+                    setIsFavorited(true)
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Added to favourites!"
+                    })
+
+                }
+
+            })
+    }
+
+
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
