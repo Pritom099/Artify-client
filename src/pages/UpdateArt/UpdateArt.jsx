@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/authContext';
 
 const UpdateArt = () => {
     const data = useLoaderData()
-    const {user} = use(AuthContext)
+    const { user } = use(AuthContext)
     const navigate = useNavigate();
     const artwork = data?.result || data
 
@@ -27,7 +27,7 @@ const UpdateArt = () => {
             likes: 0,
             views: 0,
         }
-        fetch(`http://localhost:3000/artworks/${artwork._id}`, {
+        fetch(`https://artify-server-mocha.vercel.app/artworks/${artwork._id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': "application/json",

@@ -22,12 +22,12 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home></Home>,
-                loader: () => fetch('http://localhost:3000/latest-artworks')
+                loader: () => fetch('https://artify-server-mocha.vercel.app/latest-artworks')
             },
             {
                 path: "/all-art",
                 element: <Allart></Allart>,
-                loader: () => fetch('http://localhost:3000/artworks')
+                loader: () => fetch('https://artify-server-mocha.vercel.app/artworks')
             },
             {
                 path: "/add-art",
@@ -68,7 +68,7 @@ export const router = createBrowserRouter([
                         <UpdateArt></UpdateArt>
                     </PrivateRoute>
                 ),
-                loader: ({ params }) => fetch(`http://localhost:3000/artworks/${params.id}`)
+                loader: ({ params }) => fetch(`https://artify-server-mocha.vercel.app/artworks/${params.id}`)
             },
             {
                 path: "/register",

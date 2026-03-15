@@ -9,7 +9,7 @@ const MyFavourites = () => {
 
     // Fetch favourites from backend
     useEffect(() => {
-        fetch(`http://localhost:3000/favourites?email=${user.email}`, {
+        fetch(`https://artify-server-mocha.vercel.app/favourites?email=${user.email}`, {
             headers: {
                 authorization: `Bearer ${user.accessToken}`
             }
@@ -31,7 +31,7 @@ const MyFavourites = () => {
             confirmButtonText: "Yes, remove it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/favourites/${id}`, {
+                fetch(`https://artify-server-mocha.vercel.app/favourites/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
