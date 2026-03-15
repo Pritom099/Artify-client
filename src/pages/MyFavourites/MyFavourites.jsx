@@ -9,11 +9,15 @@ const MyFavourites = () => {
 
     // Fetch favourites from backend
     useEffect(() => {
-        fetch(`http://localhost:3000/favourites?email=${user.email}`)
+        fetch(`http://localhost:3000/favourites?email=${user.email}`, {
+            headers: {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => setFavourites(data))
             .catch(err => console.log(err));
-    }, [user.email]);
+    }, [user]);
 
     // Delete favourite function
     const handleDeleteFavourite = (id) => {
@@ -48,7 +52,7 @@ const MyFavourites = () => {
             <h1 className="text-3xl font-bold mb-8">My Favourite Artworks</h1>
 
             {favourites.length === 0 ? (
-                <p className="text-gray-500">You have no favourite artworks yet.</p>
+                <p className="text-gray-500 font-semibold text-4xl">You have no favourite artworks yet.</p>
             ) : (
                 <div className="grid md:grid-cols-3 gap-6">
                     {favourites.map((art) => (

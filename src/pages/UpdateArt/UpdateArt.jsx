@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { use } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/authContext';
 
 const UpdateArt = () => {
     const data = useLoaderData()
+    const {user} = use(AuthContext)
     const navigate = useNavigate();
     const artwork = data?.result || data
 
@@ -29,6 +31,7 @@ const UpdateArt = () => {
             method: 'PUT',
             headers: {
                 'Content-type': "application/json",
+                authorization: `Bearer ${user.accessToken}`,
             },
             body: JSON.stringify(formData)
         })

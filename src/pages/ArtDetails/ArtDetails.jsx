@@ -32,6 +32,7 @@ const ArtDetails = () => {
                     method: 'DELETE',
                     headers: {
                         'Content-type': "application/json",
+                        authorization: `Bearer ${user.accessToken}`,
                     },
                 })
                     .then(res => res.json())
@@ -124,7 +125,7 @@ const ArtDetails = () => {
                     Swal.fire({
                         icon: "success",
                         title: "Added to favourites!"
-                    }) 
+                    })
                 }
 
             })
@@ -273,13 +274,21 @@ const ArtDetails = () => {
 
                         {/* CTA */}
                         <div className="flex gap-4">
-                            <Link to={`/update-art/${artwork._id}`} className="w-1/2 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 text-center">
+                            <Link to={`/update-art/${artwork._id}`} className={`w-1/2 py-3 rounded-lg font-semibold text-center 
+                                 ${user?.email !== artwork.artistEmail
+                                    ? "bg-blue-400 cursor-not-allowed pointer-events-none"
+                                    : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+                            >
                                 Update
                             </Link>
 
                             <button
                                 onClick={handleDelete}
-                                className="w-1/2 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+                                disabled={user?.email !== artwork.artistEmail}
+                                className={`w-1/2 py-3 rounded-lg font-semibold text-center 
+                                        ${user?.email !== artwork.artistEmail
+                                        ? "bg-blue-400 cursor-not-allowed pointer-events-none"
+                                        : "bg-blue-600 hover:bg-blue-700 text-white"}`}
                             >
                                 Delete
                             </button>
