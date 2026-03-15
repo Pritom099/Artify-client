@@ -10,12 +10,14 @@ import MyGallery from "../pages/MyGallery/MyGallery";
 import MyFavourites from "../pages/MyFavourites/MyFavourites";
 import UpdateArt from "../pages/UpdateArt/UpdateArt";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout></MainLayout>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/",

@@ -124,8 +124,7 @@ const ArtDetails = () => {
                     Swal.fire({
                         icon: "success",
                         title: "Added to favourites!"
-                    })
-
+                    }) 
                 }
 
             })

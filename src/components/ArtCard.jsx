@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router";
 
 const ArtCard = ({ art }) => {
-    const { image, title, category, artistName, artistPhoto, likes, price, _id } = art;
+    const { image, title, category, artistName, artistPhoto, likes, price } = art;
+    const id = art.artworkId || art._id;
 
     return (
         <div className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -56,7 +57,7 @@ const ArtCard = ({ art }) => {
                 {/* Button */}
                 <div className="card-actions mt-3">
                     <Link
-                        to={`/art-details/${_id}`}
+                        to={`/art-details/${id}`}
                         className="btn btn-primary btn-sm w-full rounded-full"
                     >
                         View Details
