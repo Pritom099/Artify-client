@@ -7,7 +7,7 @@ import ArtistCard from '../../components/ArtistCard';
 
 const Home = () => {
 
-    const data = useLoaderData();
+    const data = useLoaderData() || [];
 
     return (
         <div>
