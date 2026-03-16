@@ -28,7 +28,7 @@ const ArtDetails = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://artify-server-mocha.vercel.app/artworks/${artwork._id}`, {
+                fetch(`https://artify-server-eosin.vercel.app/artworks/${artwork._id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-type': "application/json",
@@ -55,14 +55,14 @@ const ArtDetails = () => {
     useEffect(() => {
 
         if (!hasViewed.current) {
-            fetch(`https://artify-server-mocha.vercel.app/artworks/view/${id}`, {
+            fetch(`https://artify-server-eosin.vercel.app/artworks/view/${id}`, {
                 method: "PATCH"
             });
 
             hasViewed.current = true;
         }
 
-        fetch(`https://artify-server-mocha.vercel.app/artworks/${id}`)
+        fetch(`https://artify-server-eosin.vercel.app/artworks/${id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -73,7 +73,7 @@ const ArtDetails = () => {
 
 
     const handleLike = () => {
-        fetch(`https://artify-server-mocha.vercel.app/artworks/like/${artwork._id}`, {
+        fetch(`https://artify-server-eosin.vercel.app/artworks/like/${artwork._id}`, {
             method: "PATCH"
         })
             .then(res => res.json())
@@ -108,7 +108,7 @@ const ArtDetails = () => {
             userEmail: user.email
         }
 
-        fetch("https://artify-server-mocha.vercel.app/favourites", {
+        fetch("https://artify-server-eosin.vercel.app/favourites", {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
