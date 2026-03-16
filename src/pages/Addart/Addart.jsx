@@ -27,7 +27,7 @@ const Addart = () => {
             views: 0,
             artistEmail: user?.email
         }
-        fetch('https://artify-server-eosin.vercel.app/artworks', {
+        fetch('https://artify-server-weld.vercel.app/artworks', {
             method: 'POST',
             headers: {
                 'Content-type': "application/json",

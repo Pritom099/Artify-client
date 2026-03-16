@@ -14,7 +14,7 @@ const Allart = () => {
         console.log(search_text)
         setLoading(true)
 
-        fetch(`https://artify-server-eosin.vercel.app/search?search=${search_text}`)
+        fetch(`https://artify-server-weld.vercel.app/search?search=${search_text}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data)

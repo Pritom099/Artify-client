@@ -8,7 +8,7 @@ const MyGallery = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`https://artify-server-eosin.vercel.app/my-gallery?email=${user.email}`, {
+        fetch(`https://artify-server-weld.vercel.app/my-gallery?email=${user.email}`, {
             headers: {
                 authorization: `Bearer ${user.accessToken}`
             }
